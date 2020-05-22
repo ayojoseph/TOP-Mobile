@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "282830581105",
+    "firebase_url": "https://overcomersplace-250bf.firebaseio.com",
+    "project_id": "overcomersplace-250bf",
+    "storage_bucket": "overcomersplace-250bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282830581105:android:6019be762fb81a5654dad0",
+        "android_client_info": {
+          "package_name": "com.ljdev.overcomers_place"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282830581105-v27d4t9rg8a988uc1tjao01ap3b0jsoc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDrGaRgsjDHuO8p0ohUE5gByRIG9hrh3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282830581105-v27d4t9rg8a988uc1tjao01ap3b0jsoc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
