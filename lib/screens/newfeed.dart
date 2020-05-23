@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:overcomers_place/constants.dart';
 import 'package:intl/intl.dart';
 
-
+import '../constants.dart';
 
 final _firestore = Firestore.instance;
 
@@ -15,8 +15,8 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
-
   List<Widget> feedSlivers = [];
+  var detailsState;
 
   @override
   void initState() {
@@ -24,119 +24,129 @@ class _NewsScreenState extends State<NewsScreen> {
     super.initState();
 
     getNews();
-
   }
+
   @override
   Widget build(BuildContext context) {
-    return feedSlivers.length > 0 ? CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          title: Text('News Feed'),
-          floating: true,
-          snap: false,
-          backgroundColor: kSecondColor,
-        ),
-        SliverList(
-          delegate:SliverChildListDelegate(
-        feedSlivers
-          ),
+    return feedSlivers.length > 0
+        ? CustomScrollView(
 
-        ),
-
-      ],
-    ) : Center(child: CircularProgressIndicator(),);
+            slivers: [
+              SliverAppBar(
+                title: Text('Information Board'),
+                floating: true,
+                snap: false,
+                backgroundColor: kSecondColor,
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate(feedSlivers),
+              ),
+            ],
+          )
+        : Center(
+            child: CircularProgressIndicator(),
+          );
   }
 
-  void getNews() async{
-    final newData = await _firestore.collection('News').orderBy('date_time').getDocuments();
+  void getNews() async {
+    final newData =
+        await _firestore.collection('News').orderBy('date_time').getDocuments();
     List<Widget> news = [];
 
-    for(var post in newData.documents){
+    for (var post in newData.documents) {
       final title = post.data['title'];
       final content = post.data['content'];
       final date = DateFormat.yMMMd().format(post.data['date_time'].toDate());
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-      news.add(NewsCard(nTitle: title,nContent: content,nDate: date.toString(),));
-
+      news.add(NewsCard(
+        nTitle: title,
+        nContent: content,
+        nDate: date.toString(),
+      ));
     }
-
     setState(() {
       feedSlivers = news;
     });
 
 //    print(newData.documents[0].data);
   }
-
-  Widget appbar(){
-    return AppBar(title: Text('News Feed'),);
-  }
 }
 
-
 class NewsCard extends StatelessWidget {
-
   NewsCard({this.nTitle, this.nContent, this.nDate});
 
   final String nTitle;
   final String nContent;
   final String nDate;
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Text(nContent),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 7),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => DetailsPage(
+                      title: nTitle, content: nContent, date: nDate)));
+        },
+        child: Card(
+          elevation: 8,
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  nTitle,
+                  style: kCardTitleStyle,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  nContent,
+                  style: kCardContentStyle,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+          ),
+        ),
       ),
-
     );
 //  return Text(nTitle);
   }
 }
 
+class DetailsPage extends StatelessWidget {
+  DetailsPage({this.title, this.content, this.date});
 
-class FeedStream extends StatelessWidget {
+  final String title;
+  final String content;
+  final String date;
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('News').orderBy('date_time',descending: false).snapshots(),
-      builder: (context,snapshot){
-        if(!snapshot.hasData){
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          final FeedNews = snapshot.data.documents.reversed;
-          List<Widget> newsWidgets = [];
-          for(var news in FeedNews){
-            final newsTitle = news.data['title'];
-            final newsContent = news.data['content'];
-
-            final newsTile = Text('$newsTitle  $newsContent',style: TextStyle(fontSize: 100),);
-
-            newsWidgets.add(newsTile);
-          }
-          return Expanded(
-            child: ListView(
-              children: newsWidgets,
-            ),
-          );
-
-//        return newsWidgets;
-
-
-        }
-
-      },
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: Text('Information Board'),
+          floating: true,
+          snap: false,
+          backgroundColor: kSecondColor,
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            Container(
+                color: Colors.white,
+                child: Text(
+              title,
+              style: kCardTitleStyle,
+            )),
+          ]),
+        ),
+      ],
     );
   }
 }
@@ -159,5 +169,3 @@ class FeedStream extends StatelessWidget {
 //),
 //
 //);
-
-

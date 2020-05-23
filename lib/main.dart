@@ -4,6 +4,9 @@ import 'package:overcomers_place/screens/calendar.dart';
 import 'package:overcomers_place/screens/support.dart';
 import 'package:overcomers_place/constants.dart';
 
+import 'constants.dart';
+import 'constants.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -45,6 +48,7 @@ class _TopApplicationState extends State<TopApplication> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kSecondColor,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: kBaseColor,
         selectedItemColor: kSelectedColors,
@@ -71,7 +75,7 @@ class _TopApplicationState extends State<TopApplication> {
 
       ),
 //      appBar: _appBars[_selectedIndex],
-      body: _screens[_selectedIndex],
+      body: SafeArea(child: _screens[_selectedIndex]),
 
 
     );

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>282830581105-gu5beg0ptsu76gk9ud2oct15rusd9v2o.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.282830581105-gu5beg0ptsu76gk9ud2oct15rusd9v2o</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC1oAmyH1E106pt8ZSArrfb0Xw8HDUz538</string>
+	<key>GCM_SENDER_ID</key>
+	<string>282830581105</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ljdev.overcomersPlace</string>
+	<key>PROJECT_ID</key>
+	<string>overcomersplace-250bf</string>
+	<key>STORAGE_BUCKET</key>
+	<string>overcomersplace-250bf.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:282830581105:ios:e24d1fa0c33d390654dad0</string>
+	<key>DATABASE_URL</key>
+	<string>https://overcomersplace-250bf.firebaseio.com</string>
+</dict>
+</plist>
