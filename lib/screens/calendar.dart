@@ -32,6 +32,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         AppBar(
           title: Text('Upcoming Events'),
           backgroundColor: kSecondColor,
+          centerTitle: true,
         ),
         TableCalendar(
           calendarController: _calendarController,

@@ -3,8 +3,8 @@ import 'package:overcomers_place/screens/newfeed.dart';
 import 'package:overcomers_place/screens/calendar.dart';
 import 'package:overcomers_place/screens/support.dart';
 import 'package:overcomers_place/constants.dart';
-
-import 'constants.dart';
+import 'package:provider/provider.dart';
+import 'package:overcomers_place/components/states.dart';
 import 'constants.dart';
 
 void main() {
@@ -15,13 +15,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Overcomers Place',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return ChangeNotifierProvider<NewsPageState>(
+      create: (_) => NewsPageState(),
+      child: MaterialApp(
+        title: 'Overcomers Place',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: TopApplication(),
       ),
-      home: TopApplication(),
     );
   }
 }
@@ -33,22 +36,14 @@ class TopApplication extends StatefulWidget {
 
 class _TopApplicationState extends State<TopApplication> {
   int _selectedIndex = 0;
-  List<Widget> _screens = [
-    NewsScreen(),
-    CalendarScreen(),
-    SupportScreen()
-  ];
+  List<Widget> _screens = [NewsScreen(), CalendarScreen(), SupportScreen()];
 
-  List<Widget> _appBars = [
-    kNewsBar,
-    kCalendarBar,
-    kSupportBar
-  ];
+  List<Widget> _appBars = [kNewsBar, kCalendarBar, kSupportBar];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kSecondColor,
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: kBaseColor,
         selectedItemColor: kSelectedColors,
@@ -67,20 +62,14 @@ class _TopApplicationState extends State<TopApplication> {
           ),
         ],
         currentIndex: _selectedIndex,
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             _selectedIndex = index;
           });
         },
-
       ),
 //      appBar: _appBars[_selectedIndex],
       body: SafeArea(child: _screens[_selectedIndex]),
-
-
     );
   }
 }
-
-
-

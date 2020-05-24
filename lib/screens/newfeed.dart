@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:overcomers_place/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:overcomers_place/components/states.dart';
 import 'package:intl/intl.dart';
 
 import '../constants.dart';
@@ -15,8 +17,8 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
-  List<Widget> feedSlivers = [];
-  var detailsState;
+  static List<Widget> feedSlivers = [];
+  var pageState;
 
   @override
   void initState() {
@@ -29,20 +31,7 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
     return feedSlivers.length > 0
-        ? CustomScrollView(
-
-            slivers: [
-              SliverAppBar(
-                title: Text('Information Board'),
-                floating: true,
-                snap: false,
-                backgroundColor: kSecondColor,
-              ),
-              SliverList(
-                delegate: SliverChildListDelegate(feedSlivers),
-              ),
-            ],
-          )
+        ? (context.watch<NewsPageState>().getState() == 1 ? DetailsPage(data: context.watch<NewsPageState>().getData()): FeedPage(feedSlivers: feedSlivers,) )
         : Center(
             child: CircularProgressIndicator(),
           );
@@ -84,11 +73,8 @@ class NewsCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 7),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => DetailsPage(
-                      title: nTitle, content: nContent, date: nDate)));
+          context.read<NewsPageState>().updateContents(nTitle,nContent,nDate);
+          context.read<NewsPageState>().toggleState();
         },
         child: Card(
           elevation: 8,
@@ -120,36 +106,84 @@ class NewsCard extends StatelessWidget {
 }
 
 class DetailsPage extends StatelessWidget {
-  DetailsPage({this.title, this.content, this.date});
-
-  final String title;
-  final String content;
-  final String date;
+  DetailsPage({@required this.data});
+  final Map data;
+//  final String title;
+//  final String content;
+//  final String date;
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
+          centerTitle: true,
           title: Text('Information Board'),
           floating: true,
           snap: false,
           backgroundColor: kSecondColor,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white,),
+            onPressed: (){
+              context.read<NewsPageState>().toggleState();
+            },
+          )
         ),
         SliverList(
           delegate: SliverChildListDelegate([
-            Container(
-                color: Colors.white,
-                child: Text(
-              title,
-              style: kCardTitleStyle,
-            )),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: Card(
+                elevation: 8.0,
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        data['title'],
+                        style: kCardTitleStyle,
+                      ),
+                      Text(data['date']),
+                      SizedBox(height: 17,),
+                      Text(data['content'],style: kCardContentStyle,),
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ]),
         ),
       ],
     );
   }
 }
+
+class FeedPage extends StatelessWidget {
+
+  FeedPage({this.feedSlivers});
+
+  final List<Widget> feedSlivers;
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          centerTitle: true,
+          title: Text('Information Board'),
+          floating: true,
+          snap: false,
+          backgroundColor: kSecondColor,
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(feedSlivers),
+        ),
+      ],
+    );
+  }
+}
+
 
 //return NestedScrollView(
 //headerSliverBuilder: (BuildContext context,bool innerBoxisScrolled){

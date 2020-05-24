@@ -8,7 +8,7 @@ class SupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
         children: [
-    AppBar(title: Text('Support'),backgroundColor: kSecondColor,),
+    AppBar(title: Text('Support'),backgroundColor: kSecondColor,centerTitle: true,),
         ],
     );
   }
