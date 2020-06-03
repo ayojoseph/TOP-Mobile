@@ -74,7 +74,11 @@ class NewsCard extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           context.read<NewsPageState>().updateContents(nTitle,nContent,nDate);
-          context.read<NewsPageState>().toggleState();
+          Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DetailWidget(title: nTitle, date: nDate, content: nContent)),
+          );
+
+//          context.read<NewsPageState>().toggleState();
         },
         child: Card(
           elevation: 8,
@@ -183,6 +187,61 @@ class FeedPage extends StatelessWidget {
     );
   }
 }
+
+
+class DetailWidget extends StatelessWidget {
+
+  DetailWidget({this.title,this.date,this.content});
+  final String title;
+  final String date;
+  final String content;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+              centerTitle: true,
+              title: Text(title),
+              floating: true,
+              snap: false,
+              backgroundColor: kSecondColor,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.white,),
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+              )
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Card(
+                  elevation: 8.0,
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(date),
+                        SizedBox(height: 17,),
+                        Text(content,style: kCardContentStyle,),
+
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ]),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 
 
 //return NestedScrollView(
