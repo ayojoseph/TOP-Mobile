@@ -31,7 +31,7 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
     return feedSlivers.length > 0
-        ? (context.watch<NewsPageState>().getState() == 1 ? DetailsPage(data: context.watch<NewsPageState>().getData()): FeedPage(feedSlivers: feedSlivers,) )
+        ? FeedPage(feedSlivers: feedSlivers,)
         : Center(
             child: CircularProgressIndicator(),
           );

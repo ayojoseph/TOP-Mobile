@@ -43,7 +43,6 @@ class _TopApplicationState extends State<TopApplication> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: kBaseColor,
         selectedItemColor: kSelectedColors,
@@ -69,7 +68,7 @@ class _TopApplicationState extends State<TopApplication> {
         },
       ),
 //      appBar: _appBars[_selectedIndex],
-      body: SafeArea(child: _screens[_selectedIndex]),
+      body: _screens[_selectedIndex],
     );
   }
 }
